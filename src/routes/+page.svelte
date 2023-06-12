@@ -1,2 +1,20 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+    import Scene from '$lib/components/Scene.svelte';
+
+    let width;
+    let height;
+    let el;
+
+    $: {
+        console.log(width);
+        console.log(height);
+        console.log(`Client Height: ${el?.clientHeight}`);
+    }
+</script>
+
+<div bind:clientWidth={width} bind:clientHeight={height} class='flex-grow overflow-hidden'>
+    <Scene 
+        width={width}
+        height={height}
+    />
+</div>
