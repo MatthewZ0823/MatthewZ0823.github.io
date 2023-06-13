@@ -1,8 +1,8 @@
 import * as THREE from 'three';
+import { beforeRenderScheduler } from './beforeRenderScheduler';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const beforeRenderFunctionQueue = [];
 let renderer;
 
 camera.position.z = 5;
@@ -15,7 +15,7 @@ scene.add(light);
 
 const animate = () => {
     requestAnimationFrame(animate);
-    beforeRenderFunctionQueue.forEach(func => func());
+    beforeRenderScheduler.executeAllCallbacks();
     renderer.render(scene, camera);
 }
 
@@ -32,18 +32,3 @@ export const createScene = (el, width, height) => {
 }
 
 export const getScene = () => scene;
-
-/**
- * Add a callback to be run before every render of the scene
- * @param {Function} callback Callback function to be run
- */
-export const queueFunctionBeforeRender = (callback) => {
-    beforeRenderFunctionQueue.push(callback);
-}
-
-export const dequeueFunctionBeforeRender = (callback) => {
-    const index = beforeRenderFunctionQueue.findIndex(callback);
-    if (index > -1) {
-        beforeRenderFunctionQueue.splice(index, 1);
-    }
-}

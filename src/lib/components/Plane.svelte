@@ -1,6 +1,6 @@
 <script>
     import * as THREE from 'three';
-    import { getScene, queueFunctionBeforeRender, dequeueFunctionBeforeRender } from '$lib/scene.js';
+    import { getScene } from '$lib/scene.js';
     import { onDestroy, onMount } from 'svelte';
 
     export let position = {

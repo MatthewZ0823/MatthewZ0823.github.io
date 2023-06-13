@@ -1,7 +1,8 @@
 <script>
     import * as THREE from 'three';
-    import { getScene, queueFunctionBeforeRender, dequeueFunctionBeforeRender } from '$lib/scene.js';
+    import { getScene } from '$lib/scene.js';
     import { onDestroy, onMount } from 'svelte';
+    import { beforeRenderScheduler } from '../beforeRenderScheduler';
 
     export let position = {
         x: 0,
@@ -15,7 +16,7 @@
         const geometry = new THREE.BoxGeometry();
         const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
         const cube = new THREE.Mesh(geometry, material);
-        
+
         cube.position.x = position.x;
         cube.position.y = position.y;
         cube.position.z = position.z;
@@ -33,13 +34,12 @@
         }
 
         getScene().add(cube);
-        queueFunctionBeforeRender(rotateCube);
-
+        beforeRenderScheduler.addCallback(rotateCube);
         cubeObject = cubeObj;
     });
 
     onDestroy(() => {
         getScene().remove(cubeObject.mesh);
-        dequeueFunctionBeforeRender(cubeObject.rotateCube);
+        beforeRenderScheduler.removeCallback(cubeObject.rotateCube);
     });
 </script>
