@@ -18,3 +18,4 @@
 </script>
 
 <canvas bind:this={el}></canvas>
+<slot></slot>
