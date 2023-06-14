@@ -10,7 +10,6 @@ camera.position.z = 5;
 const color = 0xFFFFFF;
 const intensity = 1;
 const light = new THREE.PointLight(color, intensity);
-light.position.set(-1, 6, 0);
 scene.add(light);
 
 const animate = () => {
