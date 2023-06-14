@@ -3,11 +3,7 @@
     import { getScene } from '$lib/scene.js';
     import { onDestroy, onMount } from 'svelte';
 
-    export let position = {
-        x: 0,
-        y: 0,
-        z: 0
-    };
+    export let position = new THREE.Vector3();
     let planeObject;
 
     onMount(() => {

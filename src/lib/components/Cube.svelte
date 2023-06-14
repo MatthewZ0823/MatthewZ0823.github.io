@@ -2,14 +2,9 @@
     import * as THREE from 'three';
     import { getScene } from '$lib/scene.js';
     import { onDestroy, onMount } from 'svelte';
-    import { beforeRenderScheduler } from '../beforeRenderScheduler';
 
-    export let position = {
-        x: 0,
-        y: 0,
-        z: 0
-    };
-    export let omega = 0;
+    export let position = new THREE.Vector3();
+    export let rotation = new THREE.Euler();
     let cubeObject;
 
     onMount(() => {
@@ -17,29 +12,25 @@
         const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
         const cube = new THREE.Mesh(geometry, material);
 
+        // This looks pretty ugly
         cube.position.x = position.x;
         cube.position.y = position.y;
         cube.position.z = position.z;
-
-        const rotateCube = () => {
-            cube.rotation.x += omega;
-            cube.rotation.y += omega;
-        }
+        cube.rotation.x = rotation.x;
+        cube.rotation.y = rotation.y;
+        cube.rotation.z = rotation.z;
 
         const cubeObj = {
             geometry: geometry,
             material: material,
             mesh: cube,
-            rotateCube: rotateCube
         }
 
         getScene().add(cube);
-        beforeRenderScheduler.addCallback(rotateCube);
         cubeObject = cubeObj;
     });
 
     onDestroy(() => {
         getScene().remove(cubeObject.mesh);
-        beforeRenderScheduler.removeCallback(cubeObject.rotateCube);
     });
 </script>
